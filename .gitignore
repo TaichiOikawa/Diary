@@ -1,0 +1,31 @@
+# IDE / OS
+*.iml
+/.idea
+.DS_Store
+
+# Gradle / ビルド成果物
+.gradle
+build/
+/captures
+.externalNativeBuild
+.cxx
+.kotlin/
+*.hprof
+
+# ローカル環境設定
+local.properties
+.env
+*.log
+
+# 署名まわり (絶対にコミットしない)
+keystore.properties
+signing.properties
+*.keystore
+*.jks
+!debug.keystore
+
+# 配布物
+*.apk
+*.aab
+/app/release
+/app/schemas

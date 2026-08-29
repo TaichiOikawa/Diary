@@ -1,0 +1,116 @@
+package com.amanospica.diary.ui.update
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.amanospica.diary.R
+import com.amanospica.diary.appContainer
+import com.amanospica.diary.update.UpdateManager
+import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
+
+/**
+ * 新しいバージョンが見つかったときに出すダイアログ。
+ *
+ * 更新の確認は起動時にも走り、そのときどの画面を開いているかは決まらないので、
+ * 画面の中ではなくナビゲーション全体に重ねて置く。
+ */
+@Composable
+fun AppUpdateDialog() {
+    val updateManager = LocalContext.current.appContainer.updateManager
+    val release by updateManager.availableRelease.collectAsStateWithLifecycle()
+    val state by updateManager.state.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
+
+    val target = release ?: return
+    val downloading = state as? UpdateManager.State.Downloading
+    val failure = state as? UpdateManager.State.Failed
+    // ダウンロード中に閉じられると、進捗の行き先が無くなるので閉じさせない
+    val isBusy = downloading != null || state is UpdateManager.State.Installing
+
+    AlertDialog(
+        onDismissRequest = { if (!isBusy) updateManager.dismissRelease() },
+        title = { Text(stringResource(R.string.update_available_title)) },
+        text = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    // リリースノートが長いと本文がボタンを押し出してしまう
+                    .heightIn(max = 320.dp)
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Text(
+                    text = stringResource(
+                        R.string.update_version_transition,
+                        updateManager.versionName,
+                        target.versionName,
+                    ),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+                if (target.releaseNotes.isNotBlank()) {
+                    Text(
+                        text = target.releaseNotes,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                if (downloading != null) {
+                    Text(
+                        text = stringResource(
+                            R.string.update_downloading,
+                            downloading.progress.roundToInt(),
+                        ),
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                    LinearProgressIndicator(
+                        progress = { (downloading.progress / 100f).coerceIn(0f, 1f) },
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+                failure?.let { error ->
+                    Text(
+                        text = error.message,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = { scope.launch { updateManager.downloadAndInstall(target) } },
+                enabled = !isBusy,
+            ) {
+                Text(
+                    stringResource(
+                        if (failure != null) R.string.update_retry else R.string.update_install
+                    )
+                )
+            }
+        },
+        dismissButton = {
+            if (!isBusy) {
+                TextButton(onClick = { updateManager.skipRelease(target) }) {
+                    Text(stringResource(R.string.update_skip_version))
+                }
+            }
+        },
+    )
+}

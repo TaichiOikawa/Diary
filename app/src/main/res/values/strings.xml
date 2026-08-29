@@ -1,0 +1,180 @@
+<resources>
+    <string name="app_name">Diary</string>
+
+    <!-- メインナビゲーション -->
+    <string name="page_dashboard">ダッシュボード</string>
+    <string name="page_timeline">タイムライン</string>
+    <string name="page_calendar">カレンダー</string>
+    <string name="page_photo">フォト</string>
+    <string name="action_create_diary">日記を書く</string>
+    <string name="action_back">戻る</string>
+    <string name="diary_draft">下書き</string>
+    <string name="diary_favorite">お気に入り</string>
+    <string name="favorite_add">お気に入りに追加</string>
+    <string name="favorite_remove">お気に入りから外す</string>
+
+    <!-- タイムライン -->
+    <string name="timeline_empty_title">まだ日記がありません</string>
+    <string name="timeline_empty_message">下の＋ボタンから最初の1件を書いてみましょう。</string>
+    <string name="timeline_untitled">無題</string>
+    <string name="timeline_favorites_title">お気に入り</string>
+    <string name="timeline_favorites_filter_on">お気に入りだけ表示</string>
+    <string name="timeline_favorites_filter_off">すべての日記を表示</string>
+    <string name="timeline_favorites_empty_title">お気に入りの日記がありません</string>
+    <string name="timeline_favorites_empty_message">日記を開いて右上の星を押すと、ここに集まります。</string>
+    <string name="timeline_media_count">写真・動画 %1$d件</string>
+    <string name="timeline_selection_count">%1$d件を選択中</string>
+    <string name="timeline_selection_clear">選択をやめる</string>
+    <string name="timeline_delete_selected">選んだ日記を削除</string>
+    <string name="timeline_delete_confirm_title">%1$d件を削除しますか？</string>
+    <string name="timeline_delete_confirm_message">本文と、貼り付けた写真・動画もまとめて消えます。元には戻せません。</string>
+
+    <!-- 検索 -->
+    <string name="search_title">検索</string>
+    <string name="search_open">日記を検索</string>
+    <string name="search_placeholder">タイトル・本文から探す</string>
+    <string name="search_clear">検索語を消す</string>
+    <string name="search_result_count">%1$d件見つかりました</string>
+    <string name="search_date_format">%1$d年%2$d月%3$d日</string>
+    <string name="search_prompt_title">日記を探す</string>
+    <string name="search_prompt_message">タイトルと本文から探します。スペースで区切ると、そのすべてを含む日記に絞り込めます。</string>
+    <string name="search_empty_title">見つかりませんでした</string>
+    <string name="search_empty_message">別の言葉で探してみてください。</string>
+
+    <!-- カレンダー -->
+    <string name="calendar_previous_month">前の月</string>
+    <string name="calendar_next_month">次の月</string>
+    <string name="calendar_month_format">%1$d年%2$d月</string>
+    <string name="calendar_today">今月へ</string>
+    <string name="calendar_day_entries">%1$d件</string>
+    <string name="calendar_sheet_empty">この日の日記はまだありません。</string>
+    <string name="calendar_sheet_create">この日に日記を書く</string>
+    <string name="calendar_close">閉じる</string>
+
+    <!-- フォト -->
+    <string name="photo_empty_title">まだ写真がありません</string>
+    <string name="photo_empty_message">日記に貼り付けた写真・動画が、ここに新しい順で並びます。</string>
+    <string name="photo_month_format">%1$d年%2$d月</string>
+    <string name="photo_date_format">%1$d年%2$d月%3$d日</string>
+    <string name="photo_open_diary">この日記を開く</string>
+    <string name="photo_video">動画</string>
+
+    <!-- ダッシュボード -->
+    <string name="dashboard_empty_title">まだ統計がありません</string>
+    <string name="dashboard_empty_message">日記を書くと、継続日数や気分の傾向がここに表示されます。</string>
+    <string name="dashboard_current_streak">継続日数</string>
+    <string name="dashboard_longest_streak">最長継続</string>
+    <string name="dashboard_total_count">総投稿数</string>
+    <string name="dashboard_recorded_days">記録した日数</string>
+    <string name="dashboard_unit_days">日</string>
+    <string name="dashboard_unit_entries">件</string>
+    <string name="dashboard_monthly_title">月別の投稿数</string>
+    <string name="dashboard_mood_title">気分の内訳</string>
+    <string name="dashboard_settings">設定</string>
+
+    <!-- エディタ -->
+    <string name="editor_title_new">新しい日記</string>
+    <string name="editor_title_edit">日記を編集</string>
+    <string name="editor_title_placeholder">タイトル</string>
+    <string name="editor_body_placeholder">今日はどんな一日でしたか？</string>
+    <string name="editor_emoji_title">今日の気分を選ぶ</string>
+    <string name="editor_save">書き終わりにして保存</string>
+    <string name="editor_status_draft">下書き</string>
+    <string name="editor_status_done">書き終わり</string>
+    <string name="editor_delete_diary">この日記を削除</string>
+    <string name="editor_delete_confirm_title">この日記を削除しますか？</string>
+    <string name="editor_delete_confirm_message">本文と、貼り付けた写真・動画もまとめて消えます。元には戻せません。</string>
+    <string name="editor_delete_block">このブロックを削除</string>
+    <string name="editor_insert_image">画像を挿入（複数選択可）</string>
+    <string name="editor_insert_video">動画を挿入</string>
+    <string name="editor_media_attaching">メディアを取り込み中</string>
+    <string name="editor_format_bold">太字</string>
+    <string name="editor_format_italic">斜体</string>
+    <string name="editor_format_underline">下線</string>
+    <string name="editor_format_heading">見出し</string>
+    <string name="editor_format_list">箇条書き</string>
+    <string name="editor_video_play">再生</string>
+    <string name="editor_video_fullscreen">全画面表示</string>
+
+    <!-- 閲覧 -->
+    <string name="viewer_title">日記</string>
+    <string name="viewer_edit">編集する</string>
+
+    <!-- ロック画面 -->
+    <string name="lock_title">日記はロックされています</string>
+    <string name="lock_message">PINを入力して解除してください。</string>
+    <string name="lock_error">PINが違います。もう一度入力してください。</string>
+    <string name="lock_delete">1文字削除</string>
+    <string name="lock_biometric_title">生体認証</string>
+    <string name="lock_biometric_subtitle">指紋または顔認証で日記を開きます</string>
+    <string name="lock_use_pin">PINを使う</string>
+
+    <!-- 設定 -->
+    <string name="settings_title">設定</string>
+    <string name="settings_section_security">セキュリティ</string>
+    <string name="settings_section_appearance">外観</string>
+    <string name="settings_pin">PIN</string>
+    <string name="settings_pin_set">設定済み</string>
+    <string name="settings_pin_unset">未設定</string>
+    <string name="settings_pin_create">設定する</string>
+    <string name="settings_pin_change">変更する</string>
+    <string name="settings_pin_clear">PINを削除してロックを解除する</string>
+    <string name="settings_pin_new_title">新しいPIN</string>
+    <string name="settings_pin_confirm_title">PINの確認</string>
+    <string name="settings_pin_hint">4〜8桁の数字</string>
+    <string name="settings_pin_invalid">4〜8桁の数字で入力してください。</string>
+    <string name="settings_pin_mismatch">PINが一致しません。もう一度入力してください。</string>
+    <string name="settings_lock">起動時にロックする</string>
+    <string name="settings_lock_description">アプリを開いたときと、他のアプリから戻ったときに認証を求めます。</string>
+    <string name="settings_biometric">生体認証を使う</string>
+    <string name="settings_biometric_description">指紋・顔認証でロックを解除できます。</string>
+    <string name="settings_biometric_unavailable">この端末では生体認証を利用できません。</string>
+    <string name="settings_theme_system">端末に合わせる</string>
+    <string name="settings_theme_light">ライト</string>
+    <string name="settings_theme_dark">ダーク</string>
+    <string name="settings_text_spacing">本文の余白</string>
+    <string name="settings_text_spacing_description">行間と、ブロック同士の間隔をまとめて変えます。</string>
+    <string name="settings_text_spacing_small">小</string>
+    <string name="settings_text_spacing_medium">中</string>
+    <string name="settings_text_spacing_large">大</string>
+    <string name="settings_section_data">データ</string>
+    <string name="settings_export">日記を書き出す</string>
+    <string name="settings_export_description">すべての日記を、写真・動画ごと1つのZIPファイルに保存します。ファイルは暗号化されないので、保存先の扱いにご注意ください。</string>
+    <string name="settings_export_action">書き出す</string>
+    <string name="settings_export_done_title">書き出しました</string>
+    <string name="settings_export_failed_title">書き出しに失敗しました</string>
+    <string name="settings_export_done">日記%1$d件と、写真・動画%2$d件を書き出しました。</string>
+    <string name="settings_import">日記を読み込む</string>
+    <string name="settings_import_description">書き出したZIPファイルから日記を復元します。いまある日記は消えません。</string>
+    <string name="settings_import_action">読み込む</string>
+    <string name="settings_import_confirm_title">日記を読み込みますか？</string>
+    <string name="settings_import_confirm_message">ファイルの中の日記を、いまある日記に追加します。同じ日記が両方にある場合は、更新日時が新しい方が残ります。</string>
+    <string name="settings_import_done_title">読み込みました</string>
+    <string name="settings_import_done">%1$d件を追加、%2$d件を更新しました。%3$d件は端末側が新しいのでそのままです。写真・動画は%4$d件を復元しました。</string>
+    <string name="settings_import_failed_title">読み込みに失敗しました</string>
+    <string name="settings_backup_error_not_backup">このファイルは、この日記アプリで書き出したものではないようです。</string>
+    <string name="settings_backup_error_version">新しいバージョンの日記アプリで書き出されたファイルです。アプリを更新してからお試しください。</string>
+    <string name="settings_backup_error_io">ファイルの読み書きに失敗しました。空き容量を確認して、もう一度お試しください。</string>
+
+    <!-- アプリの更新 -->
+    <string name="settings_section_update">アプリの更新</string>
+    <string name="settings_version">バージョン</string>
+    <string name="settings_update_check_action">更新を確認</string>
+    <string name="settings_update_up_to_date">お使いのバージョンが最新です。</string>
+    <string name="settings_update_check_failed">更新を確認できませんでした。通信環境を確認して、もう一度お試しください。</string>
+    <string name="settings_update_auto_check">起動時に更新を確認する</string>
+    <string name="settings_update_auto_check_description">1日1回まで、GitHub で新しいバージョンが公開されていないか確認します。</string>
+    <string name="update_available_title">新しいバージョンがあります</string>
+    <string name="update_version_transition">%1$s → %2$s</string>
+    <string name="update_downloading">ダウンロード中… %1$d%%</string>
+    <string name="update_install">更新する</string>
+    <string name="update_retry">もう一度試す</string>
+    <string name="update_skip_version">このバージョンは飛ばす</string>
+
+    <!-- 共通 -->
+    <string name="action_close">閉じる</string>
+    <string name="action_confirm">決定</string>
+    <string name="action_cancel">キャンセル</string>
+    <string name="action_delete">削除する</string>
+    <string name="action_next">次へ</string>
+</resources>
