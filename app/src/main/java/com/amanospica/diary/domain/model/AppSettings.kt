@@ -1,5 +1,7 @@
 package com.amanospica.diary.domain.model
 
+import java.time.LocalTime
+
 /** アプリの外観設定。 */
 enum class ThemeMode { SYSTEM, LIGHT, DARK }
 
@@ -33,7 +35,18 @@ data class AppSettings(
     val lastUpdateCheckAt: Long = 0L,
     /** 「このバージョンはスキップ」と言われたタグ。自動確認のときだけ黙る。 */
     val skippedUpdateVersion: String? = null,
-)
+    /** 決まった時刻に「日記を書きませんか」と通知するか。 */
+    val isReminderEnabled: Boolean = false,
+    /** 通知を出す時刻（端末のローカル時刻）。 */
+    val reminderTime: LocalTime = DEFAULT_REMINDER_TIME,
+    /** 通知を出す条件。 */
+    val reminderCondition: ReminderCondition = ReminderCondition.WHEN_UNWRITTEN,
+) {
+    companion object {
+        /** 通知時刻の既定値。1日を振り返れる夜の時間帯にしておく。 */
+        val DEFAULT_REMINDER_TIME: LocalTime = LocalTime.of(21, 0)
+    }
+}
 
 /** PIN の検証に必要な情報。値そのものは含まない。 */
 data class PinCredential(
