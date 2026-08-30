@@ -44,7 +44,7 @@ class ReminderController(
         settingsRepository.settings
             .map { ReminderPlan(isEnabled = it.isReminderEnabled, time = it.reminderTime) }
             .distinctUntilChanged()
-            .onEach { plan -> plan.apply() }
+            .onEach { plan -> plan.applyToAlarm() }
             .launchIn(scope)
     }
 
@@ -70,17 +70,18 @@ class ReminderController(
      * AlarmManager の予約は再起動で消えるため、ここで復元しないと通知が止まる。
      */
     suspend fun reschedule() {
-        settingsRepository.currentSettings().toPlan().apply()
+        settingsRepository.currentSettings().toPlan().applyToAlarm()
     }
 
     private suspend fun ReminderCondition.shouldNotifyToday(today: LocalDate): Boolean =
-        shouldNotify(observeDiariesByDate(today).first())
+        this.shouldNotify(observeDiariesByDate(today).first())
 
-    private fun ReminderPlan.apply() {
+    private fun ReminderPlan.applyToAlarm() {
         if (isEnabled) scheduler.schedule(time) else scheduler.cancel()
     }
 
-    private fun AppSettings.toPlan() = ReminderPlan(isEnabled = isReminderEnabled, time = reminderTime)
+    private fun AppSettings.toPlan() =
+        ReminderPlan(isEnabled = isReminderEnabled, time = reminderTime)
 
     /** 通知が OS 側で止められていれば、鳴らせないので予約も畳む。 */
     private fun AppSettings.isEnabledWithPermission(): Boolean =

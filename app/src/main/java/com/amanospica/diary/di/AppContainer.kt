@@ -72,7 +72,7 @@ class AppContainer(context: Context) {
         AppLockController(settingsRepository, applicationScope)
     }
 
-    val diaryNotifier: DiaryNotifier by lazy { DiaryNotifier(appContext) }
+    private val diaryNotifier: DiaryNotifier by lazy { DiaryNotifier(appContext) }
 
     /**
      * 通知の予約は設定画面・アラームの受信・端末の再起動から触られるので、

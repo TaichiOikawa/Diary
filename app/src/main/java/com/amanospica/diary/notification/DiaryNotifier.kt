@@ -1,17 +1,13 @@
 package com.amanospica.diary.notification
 
-import android.Manifest
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import com.amanospica.diary.MainActivity
 import com.amanospica.diary.R
 
@@ -50,22 +46,8 @@ class DiaryNotifier(context: Context) {
         }.isSuccess
     }
 
-    /**
-     * 通知を出せる状態か。
-     *
-     * Android 13 以降は実行時許可が要る。設定画面でチャンネルごと切られている場合も
-     * [NotificationManagerCompat.areNotificationsEnabled] が false になる。
-     */
-    fun canPostNotifications(): Boolean {
-        // POST_NOTIFICATIONS は Android 13 で追加された。それ以前の端末では
-        // OS に存在しない許可なので、問い合わせずに「許可あり」として扱う。
-        val granted = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
-            ContextCompat.checkSelfPermission(
-                appContext,
-                Manifest.permission.POST_NOTIFICATIONS,
-            ) == PackageManager.PERMISSION_GRANTED
-        return granted && NotificationManagerCompat.from(appContext).areNotificationsEnabled()
-    }
+    /** 通知を出せる状態か。許可が無ければ鳴らせないので、予約の要否の判断にも使う。 */
+    fun canPostNotifications(): Boolean = appContext.canPostDiaryNotifications()
 
     private fun createChannel() {
         val channel = NotificationChannel(

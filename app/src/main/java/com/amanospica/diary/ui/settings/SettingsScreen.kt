@@ -59,6 +59,7 @@ fun SettingsScreen(
     val pinSetup by viewModel.pinSetup.collectAsStateWithLifecycle()
     val backup by viewModel.backup.collectAsStateWithLifecycle()
     val update by viewModel.update.collectAsStateWithLifecycle()
+    val isReminderTimePickerOpen by viewModel.isReminderTimePickerOpen.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val biometricAvailable = context.canAuthenticateWithBiometrics()
 
@@ -194,6 +195,16 @@ fun SettingsScreen(
             }
 
             HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
+            SectionTitle(stringResource(R.string.settings_section_reminder))
+
+            ReminderSection(
+                settings = settings,
+                onEnabledChange = viewModel::setReminderEnabled,
+                onConditionChange = viewModel::setReminderCondition,
+                onOpenTimePicker = viewModel::openReminderTimePicker,
+            )
+
+            HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
             SectionTitle(stringResource(R.string.settings_section_data))
 
             SettingRow(
@@ -291,6 +302,14 @@ fun SettingsScreen(
         )
     }
 
+    if (isReminderTimePickerOpen) {
+        ReminderTimePickerDialog(
+            initialTime = settings.reminderTime,
+            onConfirm = viewModel::setReminderTime,
+            onDismiss = viewModel::closeReminderTimePicker,
+        )
+    }
+
     if (pinSetup.isOpen) {
         PinSetupDialog(
             state = pinSetup,
@@ -377,7 +396,7 @@ private fun BackupAction(
 }
 
 @Composable
-private fun SectionTitle(text: String, modifier: Modifier = Modifier) {
+internal fun SectionTitle(text: String, modifier: Modifier = Modifier) {
     Text(
         text = text,
         style = MaterialTheme.typography.titleSmall,
@@ -387,7 +406,7 @@ private fun SectionTitle(text: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun SettingRow(
+internal fun SettingRow(
     title: String,
     description: String,
     modifier: Modifier = Modifier,
