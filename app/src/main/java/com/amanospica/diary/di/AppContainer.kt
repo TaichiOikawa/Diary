@@ -28,6 +28,9 @@ import com.amanospica.diary.domain.usecase.ResolveMediaPathUseCase
 import com.amanospica.diary.domain.usecase.SaveDiaryUseCase
 import com.amanospica.diary.domain.usecase.SearchDiariesUseCase
 import com.amanospica.diary.domain.usecase.SetFavoriteUseCase
+import com.amanospica.diary.notification.DiaryNotifier
+import com.amanospica.diary.notification.ReminderController
+import com.amanospica.diary.notification.ReminderScheduler
 import com.amanospica.diary.update.UpdateManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -67,6 +70,22 @@ class AppContainer(context: Context) {
 
     val appLockController: AppLockController by lazy {
         AppLockController(settingsRepository, applicationScope)
+    }
+
+    val diaryNotifier: DiaryNotifier by lazy { DiaryNotifier(appContext) }
+
+    /**
+     * 通知の予約は設定画面・アラームの受信・端末の再起動から触られるので、
+     * 「設定に合わせて予約を保つ」役をここで1つだけ持つ。
+     */
+    val reminderController: ReminderController by lazy {
+        ReminderController(
+            settingsRepository = settingsRepository,
+            observeDiariesByDate = observeDiariesByDate,
+            scheduler = ReminderScheduler(appContext),
+            notifier = diaryNotifier,
+            scope = applicationScope,
+        )
     }
 
     /**

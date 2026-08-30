@@ -21,6 +21,9 @@ class DiaryApplication : Application(), SingletonImageLoader.Factory {
         super.onCreate()
         container = AppContainer(this)
 
+        // 設定された時刻の通知を予約する。設定が変わればここが拾って予約し直す
+        container.reminderController.start()
+
         // アプリがバックグラウンドへ回ったら施錠し、次に前面へ来たときに認証を求める
         ProcessLifecycleOwner.get().lifecycle.addObserver(
             object : DefaultLifecycleObserver {
