@@ -187,8 +187,8 @@
     <string name="settings_reminder_blocked">端末の設定でこのアプリの通知が止められています。端末の設定から通知を許可してください。</string>
     <string name="reminder_channel_name">日記のリマインダー</string>
     <string name="reminder_channel_description">設定した時刻に、日記を書く時間をお知らせします。</string>
-    <string name="reminder_notification_title">今日の日記を書きませんか？</string>
-    <string name="reminder_notification_message">今日はどんな一日でしたか。</string>
+    <string name="reminder_notification_title">今日の日記がまだ書かれていません！</string>
+    <string name="reminder_notification_message">今日はどんな一日でしたか✨</string>
 
     <!-- 共通 -->
     <string name="action_close">閉じる</string>
