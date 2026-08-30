@@ -171,6 +171,25 @@
     <string name="update_retry">もう一度試す</string>
     <string name="update_skip_version">このバージョンは飛ばす</string>
 
+    <!-- リマインダー通知 -->
+    <string name="settings_section_reminder">通知</string>
+    <string name="settings_reminder">日記のリマインダー</string>
+    <string name="settings_reminder_description">毎日決まった時刻に、日記を書く時間をお知らせします。</string>
+    <string name="settings_reminder_time">通知する時刻</string>
+    <string name="settings_reminder_time_format">%1$02d:%2$02d</string>
+    <string name="settings_reminder_time_change">変更する</string>
+    <string name="settings_reminder_time_title">通知する時刻</string>
+    <string name="settings_reminder_condition">通知する条件</string>
+    <string name="settings_reminder_condition_when_unwritten">書いていないときだけ</string>
+    <string name="settings_reminder_condition_always">毎日必ず</string>
+    <string name="settings_reminder_condition_when_unwritten_description">その日の日記がまだ無いとき、または下書きのままのときだけ通知します。</string>
+    <string name="settings_reminder_condition_always_description">その日に日記を書いていても、毎日同じ時刻に通知します。</string>
+    <string name="settings_reminder_blocked">端末の設定でこのアプリの通知が止められています。端末の設定から通知を許可してください。</string>
+    <string name="reminder_channel_name">日記のリマインダー</string>
+    <string name="reminder_channel_description">設定した時刻に、日記を書く時間をお知らせします。</string>
+    <string name="reminder_notification_title">今日の日記がまだ書かれていません！</string>
+    <string name="reminder_notification_message">今日はどんな一日でしたか✨</string>
+
     <!-- 共通 -->
     <string name="action_close">閉じる</string>
     <string name="action_confirm">決定</string>

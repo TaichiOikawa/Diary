@@ -11,6 +11,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.amanospica.diary.domain.model.AppSettings
 import com.amanospica.diary.domain.model.PinCredential
+import com.amanospica.diary.domain.model.ReminderCondition
 import com.amanospica.diary.domain.model.TextSpacing
 import com.amanospica.diary.domain.model.ThemeMode
 import com.amanospica.diary.domain.repository.SettingsRepository
@@ -18,6 +19,7 @@ import com.amanospica.diary.domain.security.PinHasher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import java.time.LocalTime
 
 private val Context.settingsDataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -107,6 +109,22 @@ class SettingsRepositoryImpl(context: Context) : SettingsRepository {
         }
     }
 
+    override suspend fun setReminderEnabled(enabled: Boolean) {
+        dataStore.edit { preferences -> preferences[KEY_REMINDER_ENABLED] = enabled }
+    }
+
+    override suspend fun setReminderTime(time: LocalTime) {
+        // 時刻は「0時からの分数」で持つ。タイムゾーンをまたいでも意味が変わらず、
+        // 日をまたぐ計算（次に通知する日時）も分の足し算だけで済む。
+        dataStore.edit { preferences ->
+            preferences[KEY_REMINDER_MINUTE_OF_DAY] = time.hour * 60 + time.minute
+        }
+    }
+
+    override suspend fun setReminderCondition(condition: ReminderCondition) {
+        dataStore.edit { preferences -> preferences[KEY_REMINDER_CONDITION] = condition.name }
+    }
+
     private fun Preferences.toAppSettings(): AppSettings {
         val hasPin = toPinCredential() != null
         return AppSettings(
@@ -123,6 +141,14 @@ class SettingsRepositoryImpl(context: Context) : SettingsRepository {
             isAutoUpdateCheckEnabled = this[KEY_AUTO_UPDATE_CHECK] ?: true,
             lastUpdateCheckAt = this[KEY_LAST_UPDATE_CHECK_AT] ?: 0L,
             skippedUpdateVersion = this[KEY_SKIPPED_UPDATE_VERSION],
+            isReminderEnabled = this[KEY_REMINDER_ENABLED] ?: false,
+            reminderTime = this[KEY_REMINDER_MINUTE_OF_DAY]
+                ?.takeIf { it in 0 until MINUTES_PER_DAY }
+                ?.let { LocalTime.of(it / 60, it % 60) }
+                ?: AppSettings.DEFAULT_REMINDER_TIME,
+            reminderCondition = this[KEY_REMINDER_CONDITION]
+                ?.let { name -> runCatching { ReminderCondition.valueOf(name) }.getOrNull() }
+                ?: ReminderCondition.WHEN_UNWRITTEN,
         )
     }
 
@@ -143,5 +169,10 @@ class SettingsRepositoryImpl(context: Context) : SettingsRepository {
         val KEY_AUTO_UPDATE_CHECK = booleanPreferencesKey("auto_update_check")
         val KEY_LAST_UPDATE_CHECK_AT = longPreferencesKey("last_update_check_at")
         val KEY_SKIPPED_UPDATE_VERSION = stringPreferencesKey("skipped_update_version")
+        val KEY_REMINDER_ENABLED = booleanPreferencesKey("reminder_enabled")
+        val KEY_REMINDER_MINUTE_OF_DAY = intPreferencesKey("reminder_minute_of_day")
+        val KEY_REMINDER_CONDITION = stringPreferencesKey("reminder_condition")
+
+        const val MINUTES_PER_DAY = 24 * 60
     }
 }

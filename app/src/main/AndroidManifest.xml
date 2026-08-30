@@ -6,6 +6,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 取得した APK をシステムのインストーラーに渡すために使う -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <!-- 指定した時刻のリマインダー通知を出すために使う（Android 13 以降は実行時にも確認する） -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- AlarmManager の予約は再起動で消えるため、起動完了を受け取って入れ直す -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".DiaryApplication"
@@ -36,6 +40,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--
+            リマインダーの時刻に AlarmManager から呼ばれる。
+            自アプリの PendingIntent からしか起動しないので外部には出さない。
+        -->
+        <receiver
+            android:name=".notification.ReminderReceiver"
+            android:exported="false" />
+
+        <!--
+            再起動とアプリ更新で AlarmManager の予約は消える。
+            これらはシステムだけが送れる保護されたブロードキャストなので、
+            受け取るために exported="true" にしても他アプリからは叩けない。
+        -->
+        <receiver
+            android:name=".notification.ReminderBootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
 
         <!--
             ダウンロードした APK はアプリのキャッシュにあるため、

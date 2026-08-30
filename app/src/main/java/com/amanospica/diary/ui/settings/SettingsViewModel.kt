@@ -6,6 +6,7 @@ import com.amanospica.diary.domain.model.AppSettings
 import com.amanospica.diary.domain.model.BackupException
 import com.amanospica.diary.domain.model.ExportSummary
 import com.amanospica.diary.domain.model.ImportSummary
+import com.amanospica.diary.domain.model.ReminderCondition
 import com.amanospica.diary.domain.model.TextSpacing
 import com.amanospica.diary.domain.model.ThemeMode
 import com.amanospica.diary.domain.repository.SettingsRepository
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.time.LocalTime
 
 /** PIN 設定ダイアログの入力状態。 */
 data class PinSetupState(
@@ -76,6 +78,9 @@ class SettingsViewModel(
 
     private val _update = MutableStateFlow(UpdateCheckState(currentVersion = updateManager.versionName))
     val update: StateFlow<UpdateCheckState> = _update.asStateFlow()
+
+    private val _isReminderTimePickerOpen = MutableStateFlow(false)
+    val isReminderTimePickerOpen: StateFlow<Boolean> = _isReminderTimePickerOpen.asStateFlow()
 
     fun startPinSetup() {
         _pinSetup.value = PinSetupState(isOpen = true)
@@ -136,6 +141,35 @@ class SettingsViewModel(
 
     fun setTextSpacing(spacing: TextSpacing) {
         viewModelScope.launch { settingsRepository.setTextSpacing(spacing) }
+    }
+
+    // --- リマインダー通知 ---
+
+    /**
+     * 通知を出すかどうかを切り替える。
+     *
+     * 予約の実体（AlarmManager）は設定を監視している ReminderController が面倒を見るので、
+     * ここは設定を書き換えるだけでよい。
+     */
+    fun setReminderEnabled(enabled: Boolean) {
+        viewModelScope.launch { settingsRepository.setReminderEnabled(enabled) }
+    }
+
+    fun setReminderTime(time: LocalTime) {
+        viewModelScope.launch { settingsRepository.setReminderTime(time) }
+        closeReminderTimePicker()
+    }
+
+    fun setReminderCondition(condition: ReminderCondition) {
+        viewModelScope.launch { settingsRepository.setReminderCondition(condition) }
+    }
+
+    fun openReminderTimePicker() {
+        _isReminderTimePickerOpen.value = true
+    }
+
+    fun closeReminderTimePicker() {
+        _isReminderTimePickerOpen.value = false
     }
 
     // --- アプリの更新 ---

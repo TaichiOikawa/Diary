@@ -1,6 +1,7 @@
 package com.amanospica.diary.domain.security
 
 import com.amanospica.diary.domain.model.AppSettings
+import com.amanospica.diary.domain.model.ReminderCondition
 import com.amanospica.diary.domain.model.TextSpacing
 import com.amanospica.diary.domain.model.ThemeMode
 import com.amanospica.diary.domain.repository.SettingsRepository
@@ -12,6 +13,7 @@ import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import java.time.LocalTime
 
 /**
  * ロック画面を出すかどうかの判定を確かめる。
@@ -118,4 +120,7 @@ private class FakeSettingsRepository(
     override suspend fun setAutoUpdateCheckEnabled(enabled: Boolean) = Unit
     override suspend fun setLastUpdateCheckAt(epochMillis: Long) = Unit
     override suspend fun setSkippedUpdateVersion(tagName: String?) = Unit
+    override suspend fun setReminderEnabled(enabled: Boolean) = Unit
+    override suspend fun setReminderTime(time: LocalTime) = Unit
+    override suspend fun setReminderCondition(condition: ReminderCondition) = Unit
 }
