@@ -46,7 +46,8 @@ class ReminderReceiver : BroadcastReceiver() {
 class ReminderBootReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action !in HANDLED_ACTIONS) return
+        val action = intent.action ?: return
+        if (action !in HANDLED_ACTIONS) return
         val container = context.appContainer
         val pendingResult = goAsync()
         CoroutineScope(SupervisorJob() + Dispatchers.Default).launch {
